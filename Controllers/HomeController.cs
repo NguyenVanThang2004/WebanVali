@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebBanVali.Models;
+using X.PagedList;
 
 namespace WebBanVali.Controllers
 {
@@ -14,10 +16,13 @@ namespace WebBanVali.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int ? page)
         {
-            var lstsanpham = db.TDanhMucSps.ToList();
-            return View(lstsanpham);
+            int pageSize = 8;
+            int pageNumber = page == null ||page < 0 ? 1 : page.Value;
+            var lstsanpham = db.TDanhMucSps.AsNoTracking().OrderBy(x => x.TenSp);
+            PagedList<TDanhMucSp> lst  = new PagedList<TDanhMucSp>(lstsanpham, pageNumber, pageSize);
+            return View(lst);
         }
 
         public IActionResult Privacy()
