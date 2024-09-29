@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebBanVali.Models;
+using WebBanVali.ViewModels;
 using X.PagedList;
 
 namespace WebBanVali.Controllers
@@ -44,7 +45,13 @@ namespace WebBanVali.Controllers
             ViewBag.anhSanPham = anhSanPham;
             return View(sanPham);
         }
-       
+        public IActionResult ProductDetail(string maSp)
+        {
+            var sanPham  = db.TDanhMucSps.SingleOrDefault(x =>x.MaSp==maSp);
+            var anhSanPham =  db.TAnhSps.Where(x=>x.MaSp ==maSp).ToList();
+            var homeProductDetailViewModel = new HomeProductDetailViewModel {danhMucSp =  sanPham,anhSps =  anhSanPham };
+            return View(homeProductDetailViewModel);
+        }
         public IActionResult Privacy()
         {
             return View();
