@@ -1,4 +1,6 @@
-﻿@model IEnumerable<WebBanVali.Models.TDanhMucSp>
+﻿@using WebBanVali.Models;
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<TDanhMucSp>
 
 @{
     ViewData["Title"] = "DanhMucSanPham";
@@ -14,33 +16,44 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TenSp)
+                Tên sản phẩm
             </th>
            
             <th>
-                @Html.DisplayNameFor(model => model.CanNang)
+                Cân nặng
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DoNoi)
+                Độ nới
             </th>
            
            
             <th>
-                @Html.DisplayNameFor(model => model.ThoiGianBaoHanh)
+                Thời gian bảo hành
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.GiaNhoNhat)
+                Giá nhỏ nhất
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GiaLonNhat)
+                Giá lớn nhất
             </th>
             
         </tr>
     </thead>
     <tbody>
+        @{
+            int i = 0;
+            string @cls = "table-success";
+        }
 @foreach (var item in Model) {
-        <tr>
+            i = i + 1;
+            cls = "table-success";
+            if( i% 2 == 0)
+            {
+                cls = "table-primary";
+                
+            }
+            <tr class="@cls">
             <td>
                 @Html.DisplayFor(modelItem => item.TenSp)
             </td>
@@ -77,3 +90,9 @@
 }
     </tbody>
 </table>
+
+<div class="product__pagination">
+
+    @Html.PagedListPager(Model, page => Url.Action("DanhMucSanPham", new { page = page }))
+
+</div>

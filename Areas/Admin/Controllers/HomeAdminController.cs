@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebBanVali.Models;
+using X.PagedList;
 
 namespace WebBanVali.Areas.Admin.Controllers
 {
@@ -17,11 +19,13 @@ namespace WebBanVali.Areas.Admin.Controllers
         }
 
         [Route("danhmucsanpham")]
-        public IActionResult DanhMucSanPham()
+        public IActionResult DanhMucSanPham(int? page)
         {
-            var lstSanPham = db.TDanhMucSps.ToList();
-            return View(lstSanPham);    
-
+            int pageSize = 8;
+            int pageNumber = page == null || page < 0 ? 1 : page.Value;
+            var lstsanpham = db.TDanhMucSps.AsNoTracking().OrderBy(x => x.TenSp);
+            PagedList<TDanhMucSp> lst = new PagedList<TDanhMucSp>(lstsanpham, pageNumber, pageSize);
+            return View(lst);
         }
     }
 }
