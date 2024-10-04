@@ -98,6 +98,32 @@ namespace WebBanVali.Areas.Admin.Controllers
         }
 
 
+        // xoa san pham 
+        [Route("XoaSanPham")]
+        [HttpGet]
+
+        public IActionResult XoaSanPham(string maSanPham)
+        {
+            TempData["Message"] = "";
+            var chiTietSanPham  = db.TChiTietSanPhams.Where(x=>x.MaSp==maSanPham ).ToList();
+            if( chiTietSanPham.Count() > 0)
+            {
+
+                TempData["Message"] = "Khong  xoa dc san pham nay";
+
+                return RedirectToAction("DanhMucSanPham", "HomeAdmin");
+                
+            }
+            var anhSanPhams = db.TAnhSps.Where(x => x.MaSp == maSanPham);
+            
+            if( anhSanPhams.Any()) db.RemoveRange(anhSanPhams);
+            db.Remove(db.TDanhMucSps.Find(maSanPham));
+            db.SaveChanges();
+            TempData["Message"] = "San pham da duoc xoa";
+            return RedirectToAction("DanhMucSanPham", "HomeAdmin");
+        }
+
+
 
     }
 }
