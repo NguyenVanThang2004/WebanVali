@@ -17,7 +17,7 @@ namespace WebBanVali.Controllers
         {
             _logger = logger;
         }
-        [Authentication]
+        //[Authentication]
         public IActionResult Index(int ? page)
         {
             int pageSize = 8;
