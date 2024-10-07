@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebBanVali.Models;
 using WebBanVali.ViewModels;
+using WebBanVali.Models.Authentication;
 using X.PagedList;
 
 namespace WebBanVali.Controllers
@@ -16,7 +17,7 @@ namespace WebBanVali.Controllers
         {
             _logger = logger;
         }
-
+        [Authentication]
         public IActionResult Index(int ? page)
         {
             int pageSize = 8;
